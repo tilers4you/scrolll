@@ -1,0 +1,17 @@
+/node_modules
+/.next
+/out
+/build
+*.log
+.DS_Store
+.env*
+!.env.example
+
+# Frame sequences are large (~80MB+) — keep the folder, ignore the frames.
+# Use a CDN or Git LFS if you must version them.
+/public/frames/*
+/public/frames-mobile/*
+!/public/frames/.gitkeep
+
+# tsc incremental cache
+*.tsbuildinfo

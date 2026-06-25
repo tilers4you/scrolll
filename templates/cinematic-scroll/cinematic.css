@@ -1,0 +1,366 @@
+/* ════════════════════════════════════════════════════════════════════════
+ *  cinematic.css — styles for CinematicScene.tsx
+ *  Rebrand: change --cin-accent (and optionally --cin-accent-soft) below.
+ * ════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --cin-accent: #22d3ee;            /* cyan — the one knob for rebranding   */
+  --cin-accent-soft: rgba(34, 211, 238, 0.16);
+  --cin-ink: #f3f6f9;              /* primary text on footage              */
+  --cin-glass: rgba(6, 10, 16, 0.5);
+  --cin-glass-border: rgba(255, 255, 255, 0.1);
+  --cin-radius: 14px;
+  --cin-shadow-text: 0 2px 14px rgba(0, 0, 0, 0.7);
+  --cin-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+}
+
+/* Lenis (smooth scroll) recommended base */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ── Layout / pinning ─────────────────────────────────────────────────── */
+.cin-outer {
+  position: relative;
+  width: 100%;
+  /* height is set inline from SCROLL_VH */
+}
+.cin-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: #05080c;
+}
+.cin-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── Loader ───────────────────────────────────────────────────────────── */
+.cin-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: #05080c;
+  color: var(--cin-ink);
+  font-family: var(--cin-font);
+}
+.cin-loader__pct {
+  font-size: clamp(40px, 9vw, 88px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+.cin-loader__bar {
+  width: min(280px, 60vw);
+  height: 3px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+.cin-loader__bar span {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform-origin: left;
+  background: var(--cin-accent);
+  transition: transform 0.25s ease-out;
+}
+.cin-loader__label {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(243, 246, 249, 0.55);
+}
+
+/* ── Overlay layer ────────────────────────────────────────────────────── */
+.cin-overlays {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* shared glass backing for readable text over bright footage */
+.cin-hero,
+.cin-stage,
+.cin-hotspot__label,
+.cin-reticle__tag {
+  background: var(--cin-glass);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--cin-glass-border);
+  border-radius: var(--cin-radius);
+  text-shadow: var(--cin-shadow-text);
+  color: var(--cin-ink);
+  font-family: var(--cin-font);
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────────── */
+.cin-hero {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, calc(-50% + 18px));
+  filter: blur(6px);
+  opacity: 0;
+  text-align: center;
+  padding: 28px 36px;
+  max-width: min(680px, 86vw);
+  transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.cin-hero.is-ready {
+  transform: translate(-50%, -50%);
+  filter: blur(0);
+}
+.cin-hero__eyebrow {
+  margin: 0 0 10px;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cin-accent);
+}
+.cin-hero__title {
+  margin: 0;
+  font-size: clamp(30px, 6vw, 64px);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+}
+.cin-hero__subtitle {
+  margin: 14px 0 0;
+  font-size: clamp(14px, 2.2vw, 18px);
+  color: rgba(243, 246, 249, 0.78);
+}
+
+/* ── Stage captions ───────────────────────────────────────────────────── */
+.cin-stage {
+  position: absolute;
+  left: clamp(20px, 6vw, 80px);
+  bottom: clamp(80px, 16vh, 140px);
+  opacity: 0;
+  padding: 18px 22px;
+  max-width: min(420px, 80vw);
+}
+.cin-stage__num {
+  display: block;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  color: var(--cin-accent);
+  margin-bottom: 6px;
+}
+.cin-stage__title {
+  margin: 0 0 6px;
+  font-size: clamp(20px, 3.4vw, 30px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.cin-stage__body {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: rgba(243, 246, 249, 0.8);
+}
+
+/* ── Reticle (corner brackets + tag) ──────────────────────────────────── */
+.cin-reticle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(58vw, 620px);
+  height: min(42vh, 420px);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+.cin-reticle__br {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border: 2px solid var(--cin-accent);
+}
+.cin-reticle__br--tl {
+  top: 0;
+  left: 0;
+  border-right: 0;
+  border-bottom: 0;
+}
+.cin-reticle__br--tr {
+  top: 0;
+  right: 0;
+  border-left: 0;
+  border-bottom: 0;
+}
+.cin-reticle__br--bl {
+  bottom: 0;
+  left: 0;
+  border-right: 0;
+  border-top: 0;
+}
+.cin-reticle__br--br {
+  bottom: 0;
+  right: 0;
+  border-left: 0;
+  border-top: 0;
+}
+.cin-reticle__tag {
+  position: absolute;
+  left: 50%;
+  bottom: -16px;
+  transform: translate(-50%, 100%);
+  white-space: nowrap;
+  padding: 8px 14px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+
+/* ── Hotspots (dot + line + label) ────────────────────────────────────── */
+.cin-hotspot {
+  position: absolute;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+.cin-hotspot__dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--cin-accent);
+  box-shadow: 0 0 0 6px var(--cin-accent-soft),
+    0 0 18px 2px var(--cin-accent);
+  transform: translate(-50%, -50%);
+}
+.cin-hotspot__line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 38px;
+  background: linear-gradient(var(--cin-accent), transparent);
+  transform: translateX(-50%);
+}
+.cin-hotspot__label {
+  position: absolute;
+  left: 12px;
+  top: 38px;
+  padding: 10px 13px;
+  white-space: nowrap;
+  font-size: 13px;
+}
+.cin-hotspot__label strong {
+  display: block;
+  font-weight: 600;
+  color: var(--cin-accent);
+  margin-bottom: 2px;
+}
+
+/* ── Menu + progress ──────────────────────────────────────────────────── */
+.cin-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px clamp(20px, 5vw, 48px);
+  pointer-events: none;
+  font-family: var(--cin-font);
+}
+.cin-menu__brand {
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  font-size: 14px;
+  color: var(--cin-ink);
+  text-shadow: var(--cin-shadow-text);
+}
+.cin-menu__items {
+  display: flex;
+  gap: 6px;
+  margin: 0 0 0 auto;
+  padding: 0;
+  list-style: none;
+  pointer-events: auto;
+}
+.cin-menu__items button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: rgba(243, 246, 249, 0.7);
+  font: inherit;
+  font-size: 13px;
+  padding: 7px 12px;
+  border-radius: 99px;
+  cursor: pointer;
+  text-shadow: var(--cin-shadow-text);
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.cin-menu__items button:hover,
+.cin-menu__items button:focus-visible {
+  color: var(--cin-ink);
+  background: rgba(255, 255, 255, 0.08);
+  outline: none;
+}
+.cin-menu__items button:focus-visible {
+  outline: 2px solid var(--cin-accent);
+  outline-offset: 2px;
+}
+.cin-menu__progress {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.cin-menu__progress-fill {
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: var(--cin-accent);
+}
+
+/* ── Mobile ───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .cin-menu__items {
+    display: none; /* keep the top bar clean on phones */
+  }
+  .cin-stage {
+    left: 16px;
+    right: 16px;
+    bottom: 92px;
+    max-width: none;
+  }
+  .cin-hotspot__label {
+    font-size: 12px;
+  }
+}
+
+/* ── Reduced motion: only soften entrance, never freeze the scene ─────── */
+@media (prefers-reduced-motion: reduce) {
+  .cin-hero {
+    transition: none;
+  }
+}

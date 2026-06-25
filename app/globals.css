@@ -1,0 +1,5 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { background: #05080c; color: #f3f6f9; }
+
+/* Canonical styles for the cinematic scene */
+@import '../templates/cinematic-scroll/cinematic.css';
