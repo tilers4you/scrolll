@@ -7,11 +7,9 @@
 .env*
 !.env.example
 
-# Frame sequences are large (~80MB+) — keep the folder, ignore the frames.
-# Use a CDN or Git LFS if you must version them.
-/public/frames/*
+# Frame sequences live in the repo for this site (~68MB).
+# If you swap to a larger clip, consider Git LFS or a CDN.
 /public/frames-mobile/*
-!/public/frames/.gitkeep
 
 # tsc incremental cache
 *.tsbuildinfo

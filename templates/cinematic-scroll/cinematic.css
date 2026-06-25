@@ -160,6 +160,18 @@ html.lenis body {
   opacity: 0;
   padding: 18px 22px;
   max-width: min(420px, 80vw);
+  transition: opacity 0.25s ease;
+}
+.cin-stage::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 28px;
+  height: 1px;
+  background: var(--cin-accent);
+  transform: translate(-100%, -50%);
+  opacity: 0.7;
 }
 .cin-stage__num {
   display: block;
@@ -249,6 +261,20 @@ html.lenis body {
   box-shadow: 0 0 0 6px var(--cin-accent-soft),
     0 0 18px 2px var(--cin-accent);
   transform: translate(-50%, -50%);
+}
+.cin-hotspot__dot::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid var(--cin-accent);
+  animation: cin-pulse 2.4s cubic-bezier(.2,.7,.2,1) infinite;
+  pointer-events: none;
+}
+@keyframes cin-pulse {
+  0%   { transform: scale(0.8); opacity: 0.9; }
+  70%  { transform: scale(2.0); opacity: 0; }
+  100% { transform: scale(2.0); opacity: 0; }
 }
 .cin-hotspot__line {
   position: absolute;

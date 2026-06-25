@@ -24,7 +24,7 @@ import Lenis from 'lenis';
  * TOTAL_FRAMES must EXACTLY match the file count in public/frames.
  * Verify:  ls public/frames | wc -l
  * A wrong number = white flash / 404 on the last frame.                    */
-const TOTAL_FRAMES = 671;
+const TOTAL_FRAMES = 551;
 const FRAME_PATH = (i: number) =>
   `/frames/frame_${String(i).padStart(4, '0')}.webp`;
 
@@ -63,12 +63,12 @@ const FEATURES = {
 /* ── Copy / brand ───────────────────────────────────────────────────────
  * All overlay copy is REAL DOM text (indexable + screen-reader friendly).
  * Stage / hotspot windows are [from,to] in 0..1 of scroll progress.        */
-const BRAND = 'TILERS4YOU';
+const BRAND = 'KEELSTONE';
 
 const HERO = {
-  eyebrow: 'CINEMATIC BUILD',
-  title: 'Watch it come together',
-  subtitle: 'Scroll to follow every stage — frame by frame.',
+  eyebrow: 'CUSTOM HOMES & ADDITIONS',
+  title: 'Built once. Built right.',
+  subtitle: 'Architecture, structure, and finish — under one contract. Ground-up homes and considered additions across the United States.',
 };
 
 type Stage = {
@@ -80,14 +80,14 @@ type Stage = {
   body: string;
 };
 const stages: Stage[] = [
-  { id: 's1', from: 0.05, to: 0.2, num: '01', title: 'Approach', body: 'The camera descends from the sky toward the rooftop.' },
-  { id: 's2', from: 0.22, to: 0.38, num: '02', title: 'The house', body: 'Pulling back to reveal the full residence.' },
-  { id: 's3', from: 0.4, to: 0.55, num: '03', title: 'Blueprint', body: 'The structure lights up as an engineering blueprint.' },
-  { id: 's4', from: 0.57, to: 0.72, num: '04', title: 'Systems', body: 'Waterproofing, substrate and tile, called out layer by layer.' },
-  { id: 's5', from: 0.75, to: 0.92, num: '05', title: 'Build', body: 'The blueprint dissolves into the active job site.' },
+  { id: 's1', from: 0.02, to: 0.16, num: '01', title: 'Vision', body: 'Every project starts above the tree line — sightlines, solar path, setbacks, the view from the kitchen window.' },
+  { id: 's2', from: 0.20, to: 0.36, num: '02', title: 'Site read', body: 'Grade, drainage, prevailing wind. The site decides the house before the architect does.' },
+  { id: 's3', from: 0.42, to: 0.56, num: '03', title: 'The home', body: 'Tight envelope, quiet HVAC, materials that age into the site rather than off of it.' },
+  { id: 's4', from: 0.60, to: 0.74, num: '04', title: 'Engineered', body: 'Stamped structural drawings, a sealed envelope, mechanicals routed for service — not just for code.' },
+  { id: 's5', from: 0.80, to: 0.94, num: '05', title: 'Build', body: 'One superintendent, one schedule, one point of contact. Foundation to keys.' },
 ];
 
-const RETICLE = { from: 0.22, to: 0.38, label: 'SUBJECT', tag: '2,400 sq ft' };
+const RETICLE = { from: 0.44, to: 0.56, label: 'RESIDENCE', tag: '3,800 sq ft · 4 bd · 3.5 ba' };
 
 type Hotspot = {
   id: string;
@@ -99,18 +99,20 @@ type Hotspot = {
   value: string;
 };
 const hotspots: Hotspot[] = [
-  { id: 'h1', from: 0.42, to: 0.6, xPct: 30, yPct: 38, title: 'Waterproofing', value: 'Bonded sheet membrane' },
-  { id: 'h2', from: 0.46, to: 0.64, xPct: 64, yPct: 52, title: 'Substrate', value: 'Uncoupling layer' },
-  { id: 'h3', from: 0.5, to: 0.68, xPct: 46, yPct: 70, title: 'Tile', value: 'Large-format porcelain' },
+  { id: 'h1', from: 0.61, to: 0.74, xPct: 50, yPct: 28, title: 'Engineered roof', value: 'TJI® rafters & ridge beam' },
+  { id: 'h2', from: 0.63, to: 0.76, xPct: 70, yPct: 44, title: '2x6 advanced framing', value: '24" o.c. — more insulation room' },
+  { id: 'h3', from: 0.66, to: 0.78, xPct: 32, yPct: 56, title: 'ZIP System sheathing', value: 'Integrated air & water barrier' },
+  { id: 'h4', from: 0.69, to: 0.82, xPct: 64, yPct: 70, title: 'Heat-pump HVAC', value: 'High-efficiency, ENERGY STAR' },
+  { id: 'h5', from: 0.72, to: 0.85, xPct: 42, yPct: 82, title: 'ICF foundation', value: 'Insulated concrete forms' },
 ];
 
 type MenuItem = { id: string; label: string; at: number };
 const menuItems: MenuItem[] = [
-  { id: 'm1', label: 'Approach', at: 0.05 },
-  { id: 'm2', label: 'House', at: 0.25 },
-  { id: 'm3', label: 'Blueprint', at: 0.45 },
-  { id: 'm4', label: 'Systems', at: 0.6 },
-  { id: 'm5', label: 'Build', at: 0.82 },
+  { id: 'm1', label: 'Vision', at: 0.02 },
+  { id: 'm2', label: 'Site', at: 0.26 },
+  { id: 'm3', label: 'Home', at: 0.46 },
+  { id: 'm4', label: 'Engineered', at: 0.66 },
+  { id: 'm5', label: 'Build', at: 0.86 },
 ];
 
 /* ════════════════════════════════════════════════════════════════════════
